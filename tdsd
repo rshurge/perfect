@@ -40,6 +40,10 @@ function DienTichTamGiac(x,y,z)
     return S
 end 
 
+-- function IsInTriagule(Point,a,b,c) 
+--     print(DienTichTamGiac(a,b,Point)+DienTichTamGiac(a,Point,c) + DienTichTamGiac(Point,b,c)-DienTichTamGiac(a,b,c))
+--     return DienTichTamGiac(a,b,Point)+DienTichTamGiac(a,Point,c) + DienTichTamGiac(Point,b,c) == DienTichTamGiac(a,b,c)
+-- end
 function IsInTriagule(point, a,b,c)
     a=Vector3.new(a.X,0,a.Z)
     b=Vector3.new(b.X,0,b.Z)
@@ -82,6 +86,7 @@ function ToST(tabl, s)
     return out
 end
 
+
 repeat wait() until game:IsLoaded()
 local plr = game.Players.LocalPlayer
 repeat wait() until plr
@@ -123,7 +128,7 @@ old = hookmetamethod(game,"__index",function(...)
     return old(...)
 end)
 repeat wait() until connect
-
+print("Connected")
 function warpF2(f) 
     if not connect2 then 
         connect2=Instance.new("IntValue")
@@ -141,7 +146,15 @@ function warpF2(f)
     ListFunc[f] = nil
     return res
 end
-
+-- local old = require
+-- local hash = {}
+-- local require = function(x) 
+--     if hash[x] then 
+--         return hash[x]
+--     end
+--     hash[x] = warpF2(function() return old(x) end)
+--     return hash[x]
+-- end
 local u1 = require(game.ReplicatedStorage.ClientStatCache);
 local Killing
 
@@ -256,7 +269,7 @@ local ListAllToken = {}
 local ListAllDupedToken = {}
 local StopFarm = {"Farm","SetHeight", "FTPrio", "Snail","Metor","Kill","Stocking","Snowflake","Rare","Leaf","Firefly","Donate","Planter","Stick","Ant","Dispenser","Craft","Memory","FieldBoost","tuoidz","StopMoreOne"}
 
-local listjelly = {"Crimson","Cobalt","Festive","Gummy","Photon","Puppy","Tabby","Vicious","Windy","Digital"}
+local listjelly = {"Crimson","Cobalt","Festive","Gummy","Photon","Puppy","Tabby","Vicious","Windy"}
 for k,v in pairs(listjelly) do 
     listjelly[k]=listjelly[k].."BeeJelly"    
 end
@@ -331,7 +344,6 @@ function TPReturner()
         end
     end
 end
-
 function GetMemoListName()
     local tab = {}
     for k, v in pairs(game.Workspace.Toys:GetChildren()) do
@@ -341,7 +353,6 @@ function GetMemoListName()
     end
     return tab
 end
-
  function Teleport()
     while wait() do
         pcall(function()
@@ -385,11 +396,9 @@ if http_request and secure_load then
         syn.request = http_request
     end
 end
-
 function fspawn(f) 
     return coroutine.wrap(f)()
 end
-
 function mysplit(inputstr, sep)
     if sep == nil then
         sep = "%s"
