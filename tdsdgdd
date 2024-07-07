@@ -1,8 +1,8 @@
 function GetUi() 
     if getgenv().Tvk then
-    if game.CoreGui:FindFirstChild("Sea Hub GUI") then
+    if game.CoreGui:FindFirstChild("Skidded Hub GUI") then
         for a, v in ipairs(game.CoreGui:GetChildren()) do
-            if v.Name == "Sea Hub GUI" then
+            if v.Name == "Skidded Hub GUI" then
                 v:Destroy()
             end
         end
@@ -123,20 +123,20 @@ local j = game:GetService("HttpService")
 local k = "!CustomUI.json"
 function SaveCustomUISettings()
     local j = game:GetService("HttpService")
-    if not isfolder("Sea Hub") then
-        makefolder("Sea Hub")
+    if not isfolder("Skidded Hub") then
+        makefolder("Skidded Hub")
     end
-    writefile("Sea Hub/" .. k, j:JSONEncode(CorrectTable(e)))
+    writefile("Skidded Hub/" .. k, j:JSONEncode(CorrectTable(e)))
 end
 function ReadCustomUISetting()
     local l, m =
         pcall(
         function()
             local j = game:GetService("HttpService")
-            if not isfolder("Sea Hub") then
-                makefolder("Sea Hub")
+            if not isfolder("Skidded Hub") then
+                makefolder("Skidded Hub")
             end
-            local n = j:JSONDecode(readfile("Sea Hub/" .. k))
+            local n = j:JSONDecode(readfile("Skidded Hub/" .. k))
             for d, v in pairs(n) do
                 local function o()
                     if v.Color == nil then
@@ -275,7 +275,7 @@ u.GetIMG = function(C)
 end
 u.Gui = Instance.new("ScreenGui")
 u.Gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-u.Gui.Name = "Sea Hub GUI"
+u.Gui.Name = "Skidded Hub GUI"
 getgenv().ReadyForGuiLoaded = false
 spawn(
     function()
@@ -288,7 +288,7 @@ spawn(
 )
 u.NotiGui = Instance.new("ScreenGui")
 u.NotiGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-u.NotiGui.Name = "Sea Hub Notification"
+u.NotiGui.Name = "Skidded Hub Notification"
 local F = Instance.new("Frame")
 local G = Instance.new("UIListLayout")
 F.Name = "NotiContainer"
@@ -305,274 +305,7 @@ G.VerticalAlignment = Enum.VerticalAlignment.Bottom
 G.Padding = UDim.new(0, 5)
 wait()
 getgenv().GUI = u.Gui
---syn.unprotect_gui(GUI)
--- // GOOGLE TRANSLATE // --
 
--- function SetUpTranslate()
---     local YourLang = "vi" -- Language code that the messages are going to be translated to
-
---     local googlev = isfile'googlev.txt' and readfile'googlev.txt' or ''
---     local request = request or syn.request
-    
---     local function outputHook(fnc)
---         return function(...)
---             return fnc('[INLINE TRANSLATOR]', ...)
---         end
---     end
---     local translate, getISOCode do
---         function googleConsent(Body) -- Because google really said: "Fuck you."
---             local args = {}
-    
---             for match in Body:gmatch('<input type="hidden" name=".-" value=".-">') do
---                 local k,v = match:match('<input type="hidden" name="(.-)" value="(.-)">')
---                 args[k] = v
---             end
---             googlev = args.v
---             writefile('googlev.txt', args.v)
---         end
-    
---         local function got(url, Method, Body) -- Basic version of https://www.npmjs.com/package/got using synapse's request API for google websites
---             Method = Method or "GET"
-            
---             local res = request({
---                 Url = url,
---                 Method = Method,
---                 Headers = {cookie="CONSENT=YES+"..googlev},
---                 Body = Body
---             })
-            
---             if res.Body:match('https://consent.google.com/s') then
---                 googleConsent(res.Body)
---                 res = request({
---                     Url = url,
---                     Method = "GET",
---                     Headers = {cookie="CONSENT=YES+"..googlev}
---                 })
---             end
-            
---             return res
---         end
-    
---         getgenv().languages = {
---             auto = "Automatic",
---             ['zh-cn'] = "Chinese Simplified",
---             ['zh-tw'] = "Chinese Traditional",
---             en = "English",
---             fr = "French",
---             de = "German",
---             el = "Greek",
---             hu = "Hungarian",
---             id = "Indonesian",
---             it = "Italian",
---             ja = "Japanese",
---             ko = "Korean",
---             mg = "Malagasy",
---             pl = "Polish",
---             pt = "Portuguese",
---             ru = "Russian",
---             es = "Spanish",
---             tr = "Turkish",
---             vi = "Vietnamese",
---         };
---         local listl = {}
---         for k,v in pairs(languages) do table.insert(listl,k) end
---         function SetRandomLang() 
---             YourLang = listl[math.random(1,#listl)]
---         end
---         function find(lang)
---             for i,v in pairs(languages) do
---                 if i == lang or v == lang then
---                     return i
---                 end
---             end
---         end
-    
---         function isSupported(lang)
---             local key = find(lang)
---             return key and true or false 
---         end
-    
---         function getISOCode(lang)
---             local key = find(lang)
---             return key
---         end
-    
---         function stringifyQuery(dataFields)
---             local data = ""
---             for k, v in pairs(dataFields) do
---                 if type(v) == "table" then
---                     for _,v in pairs(v) do
---                         data = data .. ("&%s=%s"):format(
---                             game.HttpService:UrlEncode(k),
---                             game.HttpService:UrlEncode(v)
---                         )
---                     end
---                 else
---                     data = data .. ("&%s=%s"):format(
---                         game.HttpService:UrlEncode(k),
---                         game.HttpService:UrlEncode(v)
---                     )
---                 end
---             end
---             data = data:sub(2)
---             return data
---         end
-    
---         local reqid = math.random(1000,9999)
---         local rpcidsTranslate = "MkEWBc"
---         local rootURL = "https://translate.google.com/"
---         local executeURL = "https://translate.google.com/_/TranslateWebserverUi/data/batchexecute"
---         local fsid, bl
-    
---         do -- init
---             local InitialReq = got(rootURL)
---             fsid = InitialReq.Body:match('"FdrFJe":"(.-)"')
---             bl = InitialReq.Body:match('"cfb2h":"(.-)"')
---         end
-    
---         local HttpService = game:GetService("HttpService")
---         function jsonE(o)
---             return HttpService:JSONEncode(o)
---         end
---         function jsonD(o)
---             return HttpService:JSONDecode(o)
---         end
-    
---         function translate(str, to, from)
---             reqid = reqid + 10000
---             from = from and getISOCode(from) or 'auto'
---             to = to and getISOCode(to) or 'en'
-    
---             local data = {{str, from, to, true}, {nil}}
-    
---             local freq = {
---                 {
---                     {
---                         rpcidsTranslate, 
---                         jsonE(data),
---                         nil,
---                         "generic"
---                     }
---                 }
---             }
-    
---             local url = executeURL..'?'..stringifyQuery{rpcids = rpcidsTranslate, ['f.sid'] = fsid, bl = bl, hl="en", _reqid = reqid-10000, rt = 'c'}
---             local body = stringifyQuery{['f.req'] = jsonE(freq)}
-            
---             local req = got(url, "POST", body)
-            
---             local body = jsonD(req.Body:match'%[.-%]\n')
---             local translationData = jsonD(body[1][3])
---             local result = {
---                 text = "",
---                 from = {
---                     language = "",
---                     text = ""
---                 },
---                 raw = ""
---             }
---             result.raw = translationData
---             result.text = translationData[2][1][1][6][1][1]
-            
---             result.from.language = translationData[3]
---             result.from.text = translationData[2][5][1]
-    
---             return result
---         end
---     end
---     function translateFrom(message)
---         local translation = translate(message, YourLang)
-    
---         local text
---         if translation.from.language ~= YourLang then 
---             text = translation.text
---         end
-    
---         return {text, translation.from.language}
---     end
---     function Translate(message) 
---         local s,translated =  pcall(function() 
---             return translateFrom(message)[1]
---         end)
---         if s then return translated 
---         else
---             --print(message,translated)
---         end
---     end
--- end
--- SetUpTranslate()
--- getgenv().TranslateCache = {}
--- if not isfolder("Sea Hub") then
---     makefolder("Sea Hub")
--- end
--- local s,Translated = pcall(function() 
---     return game.HttpService:JSONDecode(readfile("Sea Hub/!UIText.json"))
--- end)
--- function SaveFile() 
---     pcall(function() 
---         writefile("Sea Hub/!UIText.json",game.HttpService:JSONEncode(getgenv().TranslateCache))
---     end)
--- end
--- function isnumber() end
--- local UIChanged = false
--- if s and Translated then 
---     getgenv().TranslateCache = Translated end
--- if GUI then 
---     GUI.DescendantAdded:Connect(function(des) 
---         if des then 
---             if pcall(function() return des.Text end) then 
---                 delay(0,function() 
---                     if des.Text=="" or #des.Text<=4 or tonumber(des.Text)~=nil then
---                         return
---                     end
---                     if string.match(des.Text,"Sea Hub") then 
---                         local tvk = des.Text:gsub("Sea Hub","Trung Tâm Biển")
---                         des.Text = tvk
---                         return
---                     end
---                     local old = des.Text
---                     local c = 0
---                     while des.Text==old and c<3 do 
---                         --SetRandomLang()
---                         if getgenv().TranslateCache[des.Text] then 
---                             des.Text = getgenv().TranslateCache[des.Text]
---                             return
---                         end
---                         local t = Translate(des.Text)
---                         if t and t ~= old then 
---                             getgenv().TranslateCache[des.Text] = t
---                             UIChanged =true
---                             if t then des.Text = t end
---                         end
---                         wait(1)
---                         c=c+1
---                     end
---                     getgenv().TranslateCache[des.Text]  = des.Text
---                     UIChanged =true
---                 end)
---             end
---         end
---     end)
--- end
--- spawn(function() 
---     local t = tick()
---     while wait(2) do 
---         if tick()-t>30 then 
---             if UIChanged then 
---                 SaveFile()
---                 UIChanged = false
---             end
---         else
---             SaveFile()
---         end
---     end
--- end)
--- if syn.protect_gui then
---     syn.protect_gui(u.Gui)
---     syn.protect_gui(u.NotiGui)
---     u.Gui.Parent = game:GetService("CoreGui")
---     u.NotiGui.Parent = game:GetService("CoreGui")
--- end
 u.Gui.Parent = game:GetService("CoreGui")
 u.NotiGui.Parent = game:GetService("CoreGui")
 
@@ -642,7 +375,7 @@ function t.CreateNoti(H)
     local W = tostring(u.Getcolor(getgenv().UIColor["Title Text Color"])[2])
     local X = tostring(u.Getcolor(getgenv().UIColor["Title Text Color"])[3])
     local g = V .. "," .. W .. "," .. X
-    Q.Text = '<font color="rgb(' .. g .. ')">Sea Hub</font> ' .. getgenv().TitleNameNoti
+    Q.Text = '<font color="rgb(' .. g .. ')">Skidded Hub</font> ' .. getgenv().TitleNameNoti
     table.insert(
         c["Title Text Color"],
         function()
@@ -650,7 +383,7 @@ function t.CreateNoti(H)
             local W = tostring(u.Getcolor(getgenv().UIColor["Title Text Color"])[2])
             local X = tostring(u.Getcolor(getgenv().UIColor["Title Text Color"])[3])
             local g = V .. "," .. W .. "," .. X
-            Q.Text = '<font color="rgb(' .. g .. ')">Sea Hub</font> ' .. getgenv().TitleNameNoti
+            Q.Text = '<font color="rgb(' .. g .. ')">Skidded Hub</font> ' .. getgenv().TitleNameNoti
         end
     )
     Q.Name = "TextLabelNoti"
@@ -768,7 +501,7 @@ function t.CreateNoti(H)
     )
 end
 function t.CreateMain(H)
-    local Z = tostring(H.Title) or "Sea Hub"
+    local Z = tostring(H.Title) or "Skidded Hub"
     getgenv().MainDesc = H.Desc or ""
     local _ = false
     cac = false
@@ -871,7 +604,7 @@ function t.CreateMain(H)
         local W = tostring(u.Getcolor(getgenv().UIColor["Title Text Color"])[2])
         local X = tostring(u.Getcolor(getgenv().UIColor["Title Text Color"])[3])
         local g = V .. "," .. W .. "," .. X
-        ad.Text = '<font color="rgb(' .. g .. ')">Sea Hub</font> ' .. getgenv().MainDesc
+        ad.Text = '<font color="rgb(' .. g .. ')">Skidded Hub</font> ' .. getgenv().MainDesc
         table.insert(
             c["Title Text Color"],
             function()
@@ -880,7 +613,7 @@ function t.CreateMain(H)
                 local W = tostring(u.Getcolor(getgenv().UIColor["Title Text Color"])[2])
                 local X = tostring(u.Getcolor(getgenv().UIColor["Title Text Color"])[3])
                 local g = V .. "," .. W .. "," .. X
-                ad.Text = '<font color="rgb(' .. g .. ')">Sea Hub</font> ' .. getgenv().MainDesc
+                ad.Text = '<font color="rgb(' .. g .. ')">Skidded Hub</font> ' .. getgenv().MainDesc
             end
         )
         local as
@@ -941,7 +674,7 @@ function t.CreateMain(H)
     local W = tostring(u.Getcolor(getgenv().UIColor["Title Text Color"])[2])
     local X = tostring(u.Getcolor(getgenv().UIColor["Title Text Color"])[3])
     local g = V .. "," .. W .. "," .. X
-    ad.Text = '<font color="rgb(' .. g .. ')">Sea Hub</font> ' .. getgenv().MainDesc
+    ad.Text = '<font color="rgb(' .. g .. ')">Skidded Hub</font> ' .. getgenv().MainDesc
     table.insert(
         c["Title Text Color"],
         function()
@@ -950,7 +683,7 @@ function t.CreateMain(H)
             local W = tostring(u.Getcolor(getgenv().UIColor["Title Text Color"])[2])
             local X = tostring(u.Getcolor(getgenv().UIColor["Title Text Color"])[3])
             local g = V .. "," .. W .. "," .. X
-            ad.Text = '<font color="rgb(' .. g .. ')">Sea Hub</font> ' .. getgenv().MainDesc
+            ad.Text = '<font color="rgb(' .. g .. ')">Skidded Hub</font> ' .. getgenv().MainDesc
         end
     )
     local ar
@@ -1080,7 +813,7 @@ function t.CreateMain(H)
     local W = tostring(u.Getcolor(getgenv().UIColor["Title Text Color"])[2])
     local X = tostring(u.Getcolor(getgenv().UIColor["Title Text Color"])[3])
     local g = V .. "," .. W .. "," .. X
-    ad.Text = '<font color="rgb(' .. g .. ')">Sea Hub</font> ' .. getgenv().MainDesc
+    ad.Text = '<font color="rgb(' .. g .. ')">Skidded Hub</font> ' .. getgenv().MainDesc
     table.insert(
         c["Title Text Color"],
         function()
@@ -1088,7 +821,7 @@ function t.CreateMain(H)
             local W = tostring(u.Getcolor(getgenv().UIColor["Title Text Color"])[2])
             local X = tostring(u.Getcolor(getgenv().UIColor["Title Text Color"])[3])
             local g = V .. "," .. W .. "," .. X
-            ad.Text = '<font color="rgb(' .. g .. ')">Sea Hub</font> ' .. getgenv().MainDesc
+            ad.Text = '<font color="rgb(' .. g .. ')">Skidded Hub</font> ' .. getgenv().MainDesc
         end
     )
     ak.Name = "SettionMain"
@@ -4940,19 +4673,19 @@ local SaveFileName = getgenv().SaveFileName or plr.Name.."_BeeSwarmSimulator.jso
 
 function SaveSettings()
     local HttpService = game:GetService("HttpService")
-    if not isfolder("Sea Hub") then
-        makefolder("Sea Hub")
+    if not isfolder("Skidded Hub") then
+        makefolder("Skidded Hub")
     end
-    writefile("Sea Hub/" .. SaveFileName, HttpService:JSONEncode(Settings))
+    writefile("Skidded Hub/" .. SaveFileName, HttpService:JSONEncode(Settings))
 end
 
 function ReadSetting() 
     local s,e = pcall(function() 
         local HttpService = game:GetService("HttpService")
-        if not isfolder("Sea Hub") then
-            makefolder("Sea Hub")
+        if not isfolder("Skidded Hub") then
+            makefolder("Skidded Hub")
         end
-        return HttpService:JSONDecode(readfile("Sea Hub/" .. SaveFileName))
+        return HttpService:JSONDecode(readfile("Skidded Hub/" .. SaveFileName))
     end)
     if s then return e 
     else
@@ -6204,7 +5937,7 @@ function SendHook()
             ["fields"] = ListToField(),
             ["footer"] = {
                 ["icon_url"] = "https://cdn.discordapp.com/attachments/832985237638086660/843786018892939284/turtle.png",
-                ["text"] = "Sea Hub (" .. os.date("%X") .. ")"
+                ["text"] = "Skidded Hub (" .. os.date("%X") .. ")"
             }
         }}
     }
@@ -6234,7 +5967,7 @@ function SendHookCT(ct,content)
             ["fields"] = ct,
             ["footer"] = {
                 ["icon_url"] = "https://cdn.discordapp.com/attachments/832985237638086660/843786018892939284/turtle.png",
-                ["text"] = "Sea Hub (" .. os.date("%X") .. ")"
+                ["text"] = "Skidded Hub (" .. os.date("%X") .. ")"
             }
         }}
     }
@@ -9004,7 +8737,7 @@ Section11.CreateToggle({Title = 'Auto Kick when Ping', Desc = "Auto kick you fro
                     if Settings.KickMethod == "Close Game" then 
                         game:Shutdown()
                     else
-                        plr:Kick("\n[Sea Hub]\n".." Ping reached ".. tostring(Settings.MaximumPing))
+                        plr:Kick("\n[Skidded Hub]\n".." Ping reached ".. tostring(Settings.MaximumPing))
                     end
                 end
             end
@@ -9026,7 +8759,7 @@ function AutoKickT()
                 if Settings.KickMethod == "Close Game" then 
                     game:Shutdown()
                 else
-                    plr:Kick("\n[Sea Hub]\n".. tostring(Settings.AutoKickTimer) .." minute reached (Auto Kick Timer)")
+                    plr:Kick("\n[Skidded Hub]\n".. tostring(Settings.AutoKickTimer) .." minute reached (Auto Kick Timer)")
                 end
 			end
 		end)
@@ -9069,7 +8802,7 @@ function tuoidz1()
                                     if Settings.KickMethod == "Close Game" then 
                                         game:Shutdown()
                                     else
-                                        plr:Kick("\n[Sea Hub]\n".."Your ping froze")
+                                        plr:Kick("\n[Skidded Hub]\n".."Your ping froze")
                                     end
                                     wait(10)
                                 end
@@ -9872,138 +9605,6 @@ Section14.CreateButton({Title = 'Check Windy Favor'}, function()
     })
 end)
 
--- function Request() 
---     syn.request({
---         Url = "http://127.0.0.1:8080/",
---         Body = game.HttpService:JSONEncode({
---             Key = "Dit me cuoc doi"
---         })
---     })
--- end 
--- Request()
--- local Section14 = Page1.CreateSection('Auto Rejoin')
-
--- Section14.CreateToggle({Title = "Auto Rejoin", Default = Settings.ToggleAutoRejoin, Desc = 'Will auto rejoin if got kicked'}, function(v)
--- 	Settings.ToggleAutoRejoin = v
--- end)
--- Section14.CreateToggle({Title = "Use Private Server", Default = Settings.UsePS, Desc = 'Will Rejoin to private server (Need sea hub client open)'}, function(v)
--- 	Settings.UsePS = v
--- end)
--- Section14.CreateButton({Title = 'Check connection to Sea Hub Client'}, function()
---     Library.CreateNoti({
---         Title = nil,
---         Desc = 'Finding Sea Hub Client',
---         ShowTime = 5,
---     })
---     local a = syn.request({
---         Url = "http://localhost:25121/",
---         Body = game.HttpService:JSONEncode({
---             Key = "Test"
---         }),
---         Method="POST"
---     })
---     if a.Success then 
---         Library.CreateNoti({
---             Title = nil,
---             Desc = 'Sea Hub Client Found',
---             ShowTime = 5,
---         })
---     else
---         Library.CreateNoti({
---             Title = nil,
---             Desc = 'Sea Hub Client Not Found',
---             ShowTime = 5,
---         })
---     end
--- end)
-
--- Section14.CreateBox({Title = 'Enter Cookie', Placeholder = 'Type here', Number_Only = false,Default=Settings.Cookie}, function(v)
---     if v then
---        Settings.Cookie = v
---     end
--- end)
--- function IsCookieValid(cookie) 
---     if not cookie or cookie=="" then 
---         Library.CreateNoti({
---             Title = nil,
---             Desc = 'Invalid Cookie',
---             ShowTime = 5,
---         })
---         return
---     end
---     local a = syn.request({
---         Url = "http://localhost:25121/",
---         Body = game.HttpService:JSONEncode({
---             Key = "CheckC",
---             Cookie = cookie
---         }),
---         Method="POST"
---     })
---     if a.Success then 
---         if a.Body =="ok" then 
---             Library.CreateNoti({
---                 Title = nil,
---                 Desc = 'Valid Cookie',
---                 ShowTime = 5,
---             })
---         else
---             Library.CreateNoti({
---                 Title = nil,
---                 Desc = 'Invalid Cookie',
---                 ShowTime = 5,
---             })
---         end
---     else
---         Library.CreateNoti({
---             Title = nil,
---             Desc = 'Sea Hub Client Not Found',
---             ShowTime = 5,
---         })
---     end
--- end
--- Section14.CreateButton({Title = 'Check Cookie Valid'}, function()
---     IsCookieValid(Settings.Cookie)
--- end)
--- Section14.CreateBox({Title = 'Enter PS Link', Placeholder = 'Type here', Number_Only = false,Default=Settings.PSL}, function(v)
---     if v then
---         Settings.PSL=v
---     end
--- end)
--- local rejoined=false
--- local rejoined2=false
--- function RejoinPS(a) 
---     if not rejoined2 and not rejoined and Settings.PSL and Settings.Cookie then 
---         rejoined2=a
---         local a = syn.request({
---             Url = "http://localhost:25121/",
---             Body = game.HttpService:JSONEncode({
---                 Key = "Join",
---                 PlaceId = game.PlaceId,
---                 PS = Settings.PSL,
---                 Cookie=Settings.Cookie
---             }),
---             Method="POST"
---         })
---         print(a.Body)
---         if a.Success then
---             if a.Body=="Success" then
---                 rejoined=true 
---                 game:Shutdown()
---             else
---                 Library.CreateNoti({
---                     Title = nil,
---                     Desc = tostring(a.Body),
---                     ShowTime = 5,
---                 })
---             end
---         end
---     end
--- end
--- Section14.CreateButton({Title = 'Test Rejoin'}, function()
---     RejoinPS()
--- end)
-
-
 game.CoreGui.DescendantAdded:Connect(function()
 	wait(2)
 	pcall(function()
@@ -10048,7 +9649,7 @@ function Anti1()
     local Section21 = Page2.CreateSection('Farm Settings')
     local FieldList = {} 
     for i, v in pairs(GetListField()) do
-        if v ~= "Sea Hub Winning Field" then
+        if v ~= "Skidded Hub Winning Field" then
             table.insert(FieldList, v)
         end
     end
@@ -11572,7 +11173,7 @@ Section61.CreateButton({Title = 'Test Web Hook'}, function()
 			},
 			["footer"] = {
 				["icon_url"] = "https://cdn.discordapp.com/attachments/832985237638086660/843786018892939284/turtle.png",
-				["text"] = "Sea Hub (" .. os.date("%X") .. ")"
+				["text"] = "Skidded Hub (" .. os.date("%X") .. ")"
 			}
 		}}
 	}
@@ -11862,7 +11463,7 @@ ScriptSettingSection.CreateToggle({Title = 'Safe Mode', Default = Settings.SafeM
                     if Settings.KickMethod == "Close Game" then 
                         game:Shutdown()
                     else
-                        plr:Kick("\n[Sea Hub]\n".." Safe Mode kicked you to prevent getting logged")
+                        plr:Kick("\n[Skidded Hub]\n".." Safe Mode kicked you to prevent getting logged")
                     end
                 end
             end
@@ -11915,11 +11516,11 @@ end)
 getgenv().GuiToggled = true
 GUISettingSection.CreateBind({Title = 'Toggle GUI', Key = Enum.KeyCode.RightControl}, function()
 	getgenv().GuiToggled = not getgenv().GuiToggled
-    if game.CoreGui:FindFirstChild("Sea Hub GUI")then for a,b in ipairs(game.CoreGui:GetChildren())do if b.Name=="Sea Hub GUI"then b.Enabled=getgenv().GuiToggled end end end
+    if game.CoreGui:FindFirstChild("Skidded Hub GUI")then for a,b in ipairs(game.CoreGui:GetChildren())do if b.Name=="Skidded Hub GUI"then b.Enabled=getgenv().GuiToggled end end end
 end)
 if getgenv().Key == nil then
     GUISettingSection.CreateButton({Title = 'Destroy GUI'}, function()
-	    if game.CoreGui:FindFirstChild("Sea Hub GUI")then for a,b in ipairs(game.CoreGui:GetChildren())do if b.Name=="Sea Hub GUI"then b:Destroy()end end end
+	    if game.CoreGui:FindFirstChild("Skidded Hub GUI")then for a,b in ipairs(game.CoreGui:GetChildren())do if b.Name=="Skidded Hub GUI"then b:Destroy()end end end
     end)
 end
 -- UI LIB --
@@ -13671,7 +13272,7 @@ SpawnTable["Farm"] = function()
                         f = nil
                     end
                 else
-                     if TempField ~= "Sea Hub Winning Field" and plr.Character:FindFirstChild("HumanoidRootPart") then 
+                     if TempField ~= "Skidded Hub Winning Field" and plr.Character:FindFirstChild("HumanoidRootPart") then 
                          if Settings.WalkToMark
                          and GetMark(TempField) then
                              local mark = GetMark(TempField)
@@ -13804,7 +13405,7 @@ for k,v in pairs(SpawnTable) do
                                 }
                             },
                             author = {
-                                name = "Sea Hub Bee Swarm Simulator Bug Reporter"
+                                name = "Skidded Hub Bee Swarm Simulator Bug Reporter"
                             }
                         }
                     }
