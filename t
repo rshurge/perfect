@@ -4990,6 +4990,8 @@ function ListToOb(tabl, tf)
     return out
 end
 
+print("gaysexo")
+
 local StopFarmVK = vToK(StopFarm)
 local StopFarmList = ToST(StopFarmVK,false)
 local SupportedList = {
@@ -5415,8 +5417,6 @@ end
 function GetFieldId(name)
     return GetFieldByName(name).ID.Value
 end
-
-print("gaysexo")
 
 local maxx = 31
 local maxy = 12
