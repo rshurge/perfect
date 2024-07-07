@@ -12432,76 +12432,12 @@ for k,v in pairs(game:GetService("ReplicatedStorage").GiftedBeeModels:GetChildre
     ListGiftedBee[v.TopTexture.Texture] = v.Name
 end
 local temp
-ParticleTools = require(game.ReplicatedStorage.LocalFX.LocalTargetPracticeBeam)
-old3 = hookfunction(require(game.ReplicatedStorage.ParticleTools).MakeCrosshairDisk,function(...) 
-    if tostring(getfenv(debug.info(2,"f")).script) == "LocalTargetPracticeBeam" then 
-        local T = old3(...)
-        temp = T
-        return T
-    else
-        return old3(...)
-    end
-end)
-local old
-old = hookfunction(ParticleTools.Make,function(...) 
-    local rac = ...
-    if tostring(rac.Player)==plr.Name then 
-        if rac.Action == "Make" then 
-            temp = nil
-            local a = old(...)
-            if temp and rac and rac.FEID then 
-                --print(rac.Attach.Parent,temp)
-                local att = LocalFlyingEntity.GetEntity(rac.FEID).Part
-                if att then 
-                    if not ListCross[att] then 
-                        ListCross[att] = {}
-                    end
-                    table.insert(ListCross[att],temp)
-                end
-                
-            end
-            return a
-        end
-    end
-    return old(...)
-end)
--- spawn(function() 
---     while wait(1) do
-        
---     end
--- end)
-
 
 SpawnTable["Mark"] = function() 
     while wait(1) and false do 
-        -- game.Workspace.Stations.SignStation.LinkBeam
         local Stations = {}
         for k,v in pairs(game.Workspace.Stations:GetChildren()) do 
-            -- table.insert(v,Stations)
-            --print(CountTab(GetAttachedStation(v)))
         end
-
-        -- local mark
-        -- local Curr = FarmFieldList[LevelFarm[#LevelFarm]]
-        -- local Field = GetFieldByName(Curr)
-        
-        -- for k,v in pairs(game.Workspace.Particles:GetChildren()) do 
-        --     if  v.Name=="AreaRing" and Field and  v.Position.Y>Field.Position.Y and v:FindFirstChild("Decal") and v:FindFirstChild("Follow") and IsValidTokenPos(v,Curr) then 
-        --         mark=v
-        --         --break;
-        --     end 
-        -- end
-        -- if mark then 
-        --     FieldFarmPos[Curr] = {
-        --         List = {mark.CFrame},
-        --         Range = 15,
-        --         WalkRd = 1
-        --     }
-        -- else
-        --     print("CAcacsafa")
-        --     FieldFarmPos[Curr] = nil
-        -- end
-    end
 end
 loadstring([[
      function getIntersection(part, ray)
@@ -12522,19 +12458,6 @@ spawn(function()
             if Settings.FireFace and getgenv().TempField then 
 
                 getgenv().xa = GetNearestFire(nil,true)
-                -- do 
-                --     local arrow = getgenv().arrow or Instance.new("Part",workspace)
-                --     getgenv().arrow = arrow
-                --     arrow.Color = Color3.new(255, 0, 125)
-                --     arrow.Size = Vector3.new(5,1,5)
-                --     arrow.Anchored = true
-                --     arrow.CanCollide = false
-                --     if getgenv().xa then 
-                --         arrow.CFrame = CFrame.lookAt((CFrame.new(xa.Position)*CFrame.new(0,5,0)).p,xa.Position)
-                --     else
-                --         arrow.CFrame = CFrame.new()
-                --     end
-                -- end
                 local bm = plr.Character.UpperTorso:FindFirstChild(rnd) or Instance.new("BodyGyro",game.Players.LocalPlayer.Character.UpperTorso)
                 bm.Name=rnd
                 if xa and kc(xa.Position)<30 then 
@@ -12645,8 +12568,6 @@ end)
 spawn(function() 
     while wait(.2) do 
         if getgenv().SetHeight and Settings.Farm and ValidFarm() and Settings.CrossHair and tuoidz2() then 
-            --print("Rua bi thieu tvk nang")
-            --local rac = IsScrochStar() ]
             local conhathaykvay = CoNenNhatCrossHairNuaKhongVay(true)
             local phantram = Settings.CrossHairStand or 0
             for k2,v in pairs(ListCross) do 
@@ -12656,10 +12577,6 @@ spawn(function()
             end
             for k2,v in pairs(ListCross) do 
                 local deo
-                local alder
-                -- if ListGiftedBee[k2.TopTexture.Texture] then 
-                --     deo = true
-                -- end
                 deo = true
                 local count = 0
                 local countalder = 0
@@ -12709,9 +12626,7 @@ spawn(function()
                             wait(.5)
                         end
                     else
-                        --print("Hu")
                         if CoNenNhatCrossHairNuaKhongVay() then 
-                           -- print("hhii")
                             local last
                             for k, v in pairs(v) do
                                 v = v.Part
@@ -12785,8 +12700,7 @@ SpawnTable["Farm"] = function()
                 game:Shutdown()
             end
         end
-        
-        --local TempField = Field
+
         if ValidFarm() and Settings.Farm then
             if not tuoiTimeBlock and (not tuoiResetTime or tick()-tuoiResetTime > 20) then 
                 if Settings.ResetWhenE then 
