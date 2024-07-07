@@ -1,0 +1,315 @@
+local Library = {}
+
+local Leny = game:GetObjects("rbxassetid://18350197685")[1]
+Leny.Parent = game.CoreGui
+
+local Objects = Leny.Objects
+local UI = Objects.UI
+
+local Utility = loadstring(game:HttpGet("https://raw.githubusercontent.com/L3nyFromV3rm/Leny/main/Managers/Utility.lua"))()
+local TabManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/L3nyFromV3rm/Leny/main/Managers/TabManager.lua"))()
+local ThemeManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/L3nyFromV3rm/Leny/main/Managers/ThemeManager.lua"))()
+
+local Theme = ThemeManager.Theme
+
+local Glow = Leny.Glow
+local Main = Glow.Main
+
+local LeftFolder = Main.Left
+local RightFolder = Main.Right
+
+--local Connections = {}
+
+local firstTabIsVisible = Utility:createBooleanState(false)
+local firstSubTabIsVisible = Utility:createBooleanState(false)
+local leftAndRightAbsoluteContentSizeDebounce = Utility:createBooleanState(false)
+
+--// Library Functions
+function Library:destroy()
+	Leny:Destroy()
+end
+
+function Library:createLabel(options)
+	local Tabs = LeftFolder.Frame.Frame.Tabs
+
+	local Label = UI.Label:Clone()
+	Label.Visible = true
+	Label.Text = options.text or "Label"
+	Label.Parent = Tabs
+end
+
+function Library:createTab(options)
+	options = {
+		text = options.text or "Tab",
+		icon = options.icon or "11673940370",
+		callback = options.callback or function() end,
+	}
+
+	local Tabs = LeftFolder.Frame.Frame.Tabs
+	local UIListLayout = Tabs.UIListLayout
+
+	local Page = UI.Pages.Page:Clone()
+	Page.Parent = RightFolder
+
+	local UIPadding = Page.UIPadding
+
+	local CurrentTab = Page.TextLabel
+	CurrentTab.Text = options.text or "Tab"
+
+	local Moveable = Tabs.Parent.Moveable
+
+	local TabBackgroundFrame = Moveable.Frame
+	TabBackgroundFrame.BackgroundColor3 = Theme.main
+
+	local Tab = UI.Tabs.Tab:Clone()
+	Tab.Visible = true
+	Tab.Parent = Tabs
+
+	local Icon = Tab.ImageButton
+	Icon.Image = "http://www.roblox.com/asset/?id=" .. options.icon
+
+	local TabButton = Tab.TextButton
+	TabButton.Text = options.text
+
+	--// Update TabBackgroundFrame
+	local TAB_SIZE = Tab.Size.Y.Offset
+	local PADDING_Y = 20 -- get UIListLayout Padding value instead, but this is correct still.
+
+	local currentTabPosition = TabManager:getCurrentTabPosition(Tabs, function(index, tab, tabIndex, currentTabPosition)
+		--// Dependent on the anchor point and where position of the tabFrame is currently.
+		if tabIndex ~= 1 then
+			currentTabPosition += TAB_SIZE + PADDING_Y
+		end
+		--
+
+		if Utility:lookBeforeChildOfObject(index, Tabs, "Label") then
+			currentTabPosition += 14 + PADDING_Y
+		end
+
+		return currentTabPosition
+	end)
+
+	local updateTabBackgroundFrame = function()
+		Utility:tween(TabBackgroundFrame, {Position = UDim2.fromOffset(0, currentTabPosition)}, 0.2):Play()
+	end
+	--
+
+	--// Functions for Fade animation
+	local tweenFadeAndPageObjects = function(fadeObject, backgroundTransparency, paddingY)
+		Utility:tween(fadeObject, {BackgroundTransparency = backgroundTransparency}, 0.2):Play()
+		Utility:tween(UIPadding, {PaddingTop = UDim.new(0, paddingY)}, 0.2):Play()
+	end
+
+	local createFade = function()
+		local Fade = UI.Fade:Clone()
+		Fade.Visible = true
+		Fade.Parent = RightFolder
+		Fade.BackgroundTransparency = 1
+
+		tweenFadeAndPageObjects(Fade, 0, 14)
+		return Fade
+	end
+
+	local destroyFade = function(fadeObject)
+		return function()
+			tweenFadeAndPageObjects(fadeObject, 1, 24)
+			task.wait(0.2)
+			fadeObject:Destroy()
+		end
+	end
+
+	local fade = function()
+		local Fade = createFade()
+		task.delay(0.2, destroyFade(Fade))
+	end
+	--
+
+	--// GetPropertyChangedSignal Functions
+	local autoSizeTabsCanvasSize = function()
+		Tabs.CanvasSize = UDim2.fromOffset(0, UIListLayout.AbsoluteContentSize.Y)
+	end
+
+	local makeMoveableCanvasPropertiesSameAsTabs = function()
+		Moveable.CanvasSize = Tabs.CanvasSize
+		Moveable.CanvasPosition = Tabs.CanvasPosition
+	end
+	--
+
+	--// Function calls and Connections
+	local tabManagerOptions = TabManager:validateTabManagerOptions({
+		objectWithTabs = Tabs,
+		tabType = "Tab",
+		objectWithPages = RightFolder,
+		currentPage = Page,
+		tabButton = TabButton,
+		icon = Icon,
+		tabBackgroundFrame = TabBackgroundFrame,
+		currentTabPosition = currentTabPosition,
+		currentTabOnDuration = 0.3,
+		allTabsOffDuration = 0.1,
+		updateTabBackgroundFrame = updateTabBackgroundFrame,
+		animation = fade,
+		theme = Theme,
+	})
+
+	TabManager:showFirstTab(firstTabIsVisible, tabManagerOptions)
+
+	TabButton.MouseButton1Down:Connect(TabManager:changeToTab(tabManagerOptions))
+	UIListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(autoSizeTabsCanvasSize)
+	Tabs:GetPropertyChangedSignal("CanvasPosition"):Connect(makeMoveableCanvasPropertiesSameAsTabs)
+	--
+
+	return setmetatable({Page = Page}, {__index = Library})
+end
+
+function Library:createSubTab(options)
+	options = {
+		text = options.text or "Tab",
+		callback = options.callback or function() end,
+	}
+
+	local SubTabs = self.Page.Frame.ScrollingFrame
+	local UIListLayout = SubTabs.UIListLayout
+
+	local SubPages = self.Page.SubPages
+	local UIPadding = SubPages.UIPadding
+
+	local SubPage = UI.Pages.SubPage:Clone()
+	SubPage.Parent = SubPages
+
+	local SubTabButton = UI.Tabs.SubTab:Clone()
+	SubTabButton.Visible = true
+	SubTabButton.Text = options.text
+	SubTabButton.Parent = SubTabs
+	SubTabButton.Size = UDim2.fromOffset(SubTabButton.TextBounds.X + 30, 30)
+
+	local Moveable = SubTabs.Parent.Moveable
+
+	local TabBackgroundFrame = Moveable.Frame
+	TabBackgroundFrame.BackgroundColor3 = Theme.main
+	TabBackgroundFrame.Size = UDim2.fromOffset(SubTabButton.TextBounds.X + 30, 30)
+
+	--// Update TabBackgroundFrame
+	local currentTabPosition = TabManager:getCurrentTabPosition(SubTabs, function(index, tab, tabIndex, currentTabPosition)
+		--// Dependent on the anchor point and where position of the tabFrame is currently.
+		if tabIndex == 1 then
+			currentTabPosition = 0
+		end
+		--
+
+		if tabIndex ~= 1 then
+			local condition, object = Utility:lookBeforeChildOfObject(index, SubTabs, "SubTab")
+
+			local subTabSize = tab.Size.X.Offset
+			local objectSize = object.Size.X.Offset
+
+			currentTabPosition += subTabSize
+
+			if condition then
+				currentTabPosition -= (subTabSize - objectSize)
+			end
+		end
+
+		return currentTabPosition
+	end)
+
+	local updateTabBackgroundFrame = function()
+		Utility:tween(TabBackgroundFrame, {Position = UDim2.fromOffset(currentTabPosition, 0), Size = UDim2.fromOffset(SubTabButton.Size.X.Offset, 30)}, 0.2):Play()
+	end
+	--
+
+	--// Function for Transition animation
+	local transition = function()
+		Utility:tween(UIPadding, {PaddingTop = UDim.new(0, 10)}, 0.2):Play()
+
+		task.delay(0.2, function()
+			Utility:tween(UIPadding, {PaddingTop = UDim.new(0, 0)}, 0.2):Play()
+		end)
+	end
+	--
+
+	--// GetPropertyChangedSignal Connections
+	local autoSizeSubTabsCanvasSizeAndParentSize = function()
+		local clamp = math.clamp(UIListLayout.AbsoluteContentSize.X, 0, 661)
+
+		SubTabs.Parent.Size = UDim2.fromOffset(clamp, 30)
+		SubTabs.CanvasSize = UDim2.fromOffset(UIListLayout.AbsoluteContentSize.X, 0)
+	end
+
+	local makeMoveableCanvasPropertiesSameAsSubTabs = function()
+		Moveable.CanvasSize = SubTabs.CanvasSize
+		Moveable.CanvasPosition = SubTabs.CanvasPosition
+	end
+	--
+
+	--// Function calls and Connections
+	local tabManagerOptions = TabManager:validateTabManagerOptions({
+		objectWithTabs = SubTabs,
+		tabType = "SubTab",
+		objectWithPages = SubPages,
+		currentPage = SubPage,
+		tabButton = SubTabButton,
+		icon = nil,
+		tabBackgroundFrame = TabBackgroundFrame,
+		currentTabPosition = currentTabPosition,
+		currentTabOnDuration = 0.3,
+		allTabsOffDuration = 0.1,
+		updateTabBackgroundFrame = updateTabBackgroundFrame,
+		animation = transition,
+		theme = Theme,
+	})
+	
+	autoSizeSubTabsCanvasSizeAndParentSize()
+	TabManager:showFirstTab(firstSubTabIsVisible, tabManagerOptions)
+	SubTabButton.MouseButton1Down:Connect(TabManager:changeToTab(tabManagerOptions))
+	UIListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(autoSizeSubTabsCanvasSizeAndParentSize)
+	SubTabs:GetPropertyChangedSignal("CanvasPosition"):Connect(makeMoveableCanvasPropertiesSameAsSubTabs)
+	--
+
+	return setmetatable({SubPages = SubPages, SubPage = SubPage}, {__index = Library})
+end
+
+function Library:createSection(options)
+	options = {
+		position = options.position or "Left"
+	}
+
+	local Section = UI.Section:Clone()
+	Section.Visible = true
+	Section.Parent = self.SubPage[options.position]
+
+	local UIListLayout = Section.UIListLayout
+
+	local SubPageLeft = self.SubPage.Left
+	local SubPageRight = self.SubPage.Right
+
+	--// GetPropertyChangedSignal Functions
+	local autoSectionSize = function()
+		Section.Size = UDim2.new(1, 0, 0, UIListLayout.AbsoluteContentSize.Y + 14 + 20)
+	end
+
+	local autoSubPagesCanvasSize = function()
+		local max = math.max(SubPageLeft.UIListLayout.AbsoluteContentSize.Y, SubPageRight.UIListLayout.AbsoluteContentSize.Y)
+		self.SubPages.CanvasSize = UDim2.fromOffset(0, max)
+	end
+	--
+
+	--// Function calls and Connections
+	autoSectionSize()
+	Section.Size = UDim2.new(1, 0, 0, 200) -- remove later, just for testing
+	UIListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(autoSectionSize)
+
+	if not leftAndRightAbsoluteContentSizeDebounce:get() then
+		leftAndRightAbsoluteContentSizeDebounce:set(true)
+		SubPageLeft.UIListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(autoSubPagesCanvasSize)
+		SubPageRight.UIListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(autoSubPagesCanvasSize)
+	end
+	--
+end
+--
+
+--// Make UI Draggable
+Utility:draggable(Glow)
+--
+
+return Library
