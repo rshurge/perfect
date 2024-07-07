@@ -1,5 +1,7 @@
 loadstring(game:HttpGet("https://raw.githubusercontent.com/rshurge/perfect/main/skiddeduii"))()
 
+GetUI()
+
 local FieldFarmPos = {}
 
 local Cache = {}
