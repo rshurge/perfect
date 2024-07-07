@@ -12432,6 +12432,38 @@ for k,v in pairs(game:GetService("ReplicatedStorage").GiftedBeeModels:GetChildre
     ListGiftedBee[v.TopTexture.Texture] = v.Name
 end
 local temp
+ParticleTools = require(game.ReplicatedStorage.LocalFX.LocalTargetPracticeBeam)
+old3 = hookfunction(require(game.ReplicatedStorage.ParticleTools).MakeCrosshairDisk,function(...) 
+    if tostring(getfenv(debug.info(2,"f")).script) == "LocalTargetPracticeBeam" then 
+        local T = old3(...)
+        temp = T
+        return T
+    else
+        return old3(...)
+    end
+end)
+local old
+old = hookfunction(ParticleTools.Make,function(...) 
+    local rac = ...
+    if tostring(rac.Player)==plr.Name then 
+        if rac.Action == "Make" then 
+            temp = nil
+            local a = old(...)
+            if temp and rac and rac.FEID then 
+                local att = LocalFlyingEntity.GetEntity(rac.FEID).Part
+                if att then 
+                    if not ListCross[att] then 
+                        ListCross[att] = {}
+                    end
+                    table.insert(ListCross[att],temp)
+                end
+                
+            end
+            return a
+        end
+    end
+    return old(...)
+end)
 
 SpawnTable["Mark"] = function() 
     while wait(1) and false do 
@@ -12700,7 +12732,7 @@ SpawnTable["Farm"] = function()
                 game:Shutdown()
             end
         end
-
+        
         if ValidFarm() and Settings.Farm then
             if not tuoiTimeBlock and (not tuoiResetTime or tick()-tuoiResetTime > 20) then 
                 if Settings.ResetWhenE then 
