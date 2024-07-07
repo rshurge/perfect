@@ -40,10 +40,6 @@ function DienTichTamGiac(x,y,z)
     return S
 end 
 
--- function IsInTriagule(Point,a,b,c) 
---     print(DienTichTamGiac(a,b,Point)+DienTichTamGiac(a,Point,c) + DienTichTamGiac(Point,b,c)-DienTichTamGiac(a,b,c))
---     return DienTichTamGiac(a,b,Point)+DienTichTamGiac(a,Point,c) + DienTichTamGiac(Point,b,c) == DienTichTamGiac(a,b,c)
--- end
 function IsInTriagule(point, a,b,c)
     a=Vector3.new(a.X,0,a.Z)
     b=Vector3.new(b.X,0,b.Z)
@@ -86,7 +82,6 @@ function ToST(tabl, s)
     return out
 end
 
-
 repeat wait() until game:IsLoaded()
 local plr = game.Players.LocalPlayer
 repeat wait() until plr
@@ -128,7 +123,7 @@ old = hookmetamethod(game,"__index",function(...)
     return old(...)
 end)
 repeat wait() until connect
-print("Connected")
+
 function warpF2(f) 
     if not connect2 then 
         connect2=Instance.new("IntValue")
@@ -146,15 +141,7 @@ function warpF2(f)
     ListFunc[f] = nil
     return res
 end
--- local old = require
--- local hash = {}
--- local require = function(x) 
---     if hash[x] then 
---         return hash[x]
---     end
---     hash[x] = warpF2(function() return old(x) end)
---     return hash[x]
--- end
+
 local u1 = require(game.ReplicatedStorage.ClientStatCache);
 local Killing
 
@@ -269,7 +256,7 @@ local ListAllToken = {}
 local ListAllDupedToken = {}
 local StopFarm = {"Farm","SetHeight", "FTPrio", "Snail","Metor","Kill","Stocking","Snowflake","Rare","Leaf","Firefly","Donate","Planter","Stick","Ant","Dispenser","Craft","Memory","FieldBoost","tuoidz","StopMoreOne"}
 
-local listjelly = {"Crimson","Cobalt","Festive","Gummy","Photon","Puppy","Tabby","Vicious","Windy"}
+local listjelly = {"Crimson","Cobalt","Festive","Gummy","Photon","Puppy","Tabby","Vicious","Windy","Digital"}
 for k,v in pairs(listjelly) do 
     listjelly[k]=listjelly[k].."BeeJelly"    
 end
@@ -344,6 +331,7 @@ function TPReturner()
         end
     end
 end
+
 function GetMemoListName()
     local tab = {}
     for k, v in pairs(game.Workspace.Toys:GetChildren()) do
@@ -353,6 +341,7 @@ function GetMemoListName()
     end
     return tab
 end
+
  function Teleport()
     while wait() do
         pcall(function()
@@ -383,22 +372,13 @@ spawn(function()
         getfenv().TvkStatCache = TvkStatCache
     end
 end)
+
 getfenv().TvkStatCache = TvkStatCache
 
-Exploit = "Synapse X"
-if http_request and secure_load then
-    Exploit = "Sentinel"
-    if syn then
-        setreadonly(syn, false)
-        syn.request = http_request
-    else
-        syn = {}
-        syn.request = http_request
-    end
-end
 function fspawn(f) 
     return coroutine.wrap(f)()
 end
+
 function mysplit(inputstr, sep)
     if sep == nil then
         sep = "%s"
@@ -409,6 +389,7 @@ function mysplit(inputstr, sep)
     end
     return t
 end
+
 local FieldXYJSON = [[{"Mountain Top Field":{"Y":27,"X":23},"Bamboo Field":{"Y":17,"X":38},"Dandelion Field":{"Y":17,"X":35},"Pumpkin Patch":{"Y":16,"X":32},"Sunflower Field":{"Y":32,"X":19},"Mushroom Field":{"Y":22,"X":31},"Blue Flower Field":{"Y":16,"X":42},"Pine Tree Forest":{"Y":30,"X":22},"Strawberry Field":{"Y":25,"X":21},"Coconut Field":{"Y":20,"X":29},"Stump Field":{"Y":0,"X":0},"Spider Field":{"Y":25,"X":27},"Rose Field":{"Y":19,"X":30},"Ant Field":{"Y":12,"X":31},"Clover Field":{"Y":28,"X":25},"Pineapple Patch":{"Y":22,"X":32},"Cactus Field":{"Y":17,"X":32},"Pepper Patch":{"Y":26,"X":20}}]]
 local FieldXY = game:GetService("HttpService"):JSONDecode(FieldXYJSON)
 
@@ -428,8 +409,6 @@ for k,v in pairs(game.Workspace.Flowers:GetChildren()) do
 end
 
 function CountMark(Field,a,b,c) 
-    -- local OverlapParams = Instance.new("OverlapParams")
-    -- OverlapParams.FilterDescendantsInstances = {}
     local count = 0
     for k, v in ipairs(game.Workspace.Particles:GetChildren()) do
         if v:IsA("Part")
@@ -442,7 +421,6 @@ function CountMark(Field,a,b,c)
     end
     return count 
 end
-
 
 function triangle_area(x1, y1, x2, y2, x3, y3)
     return math.abs((x1 * (y2 - y3) + x2 * (y3 - y1) + x3 * (y1 - y2)) / 2)
@@ -458,7 +436,7 @@ function triangle_area(x1, y1, x2, y2, x3, y3)
     local u, v, w = barycentric_coordinates(x, y, ax, ay, bx, by, cx, cy)
     return u >= 0 and v >= 0 and w >= 0
   end
-  -- Function to build a k-d tree
+
   local function build_kd_tree(points, depth)
     local axis = depth % 2
     if #points <= 1 then
@@ -485,10 +463,8 @@ function triangle_area(x1, y1, x2, y2, x3, y3)
     return node
   end
   
-  -- Function to search for the point C with maximum number of points inside the triangle ABC
   function search_point_c(node, a, b, c)
     if node == nil then return 0 end
-    --print(node.point)
     if not node.point then return 0 end
     local count = 0
     if is_point_in_triangle(node.point.x, node.point.y,a.x, a.y, b.x, b.y, c.x, c.y) then
@@ -500,7 +476,6 @@ function triangle_area(x1, y1, x2, y2, x3, y3)
     return count + left_count + right_count
   end
   
-  -- Function to find the point C with maximum number of points inside the triangle ABC
   function find_point_c(kd_tree, points, a, b)
     local max_points, max_point = 0, nil
     for _, c in ipairs(points) do
@@ -512,6 +487,7 @@ function triangle_area(x1, y1, x2, y2, x3, y3)
     end
     return max_point, max_points
   end
+
 function GetBestTriagulatePoint(Field,a,b) 
     local points = {}
     if FieldPart[Field] then 
@@ -519,6 +495,7 @@ function GetBestTriagulatePoint(Field,a,b)
             table.insert(points,{x=v.Position.X,y=v.Position.Z})
         end
     end
+
     local listmark = {}
     for k, v in ipairs(game.Workspace.Particles:GetChildren()) do
         if v:IsA("Part")
@@ -534,6 +511,7 @@ end
 
 local Con = {}
 local Selling = false
+
 function GetListField(a)
     local tablee = {}
     for _, v in pairs(game.Workspace.FlowerZones:GetChildren()) do
@@ -544,6 +522,7 @@ function GetListField(a)
     end
     return tablee
 end
+
 function ListToOb(tabl, tf)
     local out = {}
     for k, v in pairs(tabl) do
@@ -570,7 +549,7 @@ local SupportedList = {
     "Onett"
 }
 local UnSupported = {
-    'Mother Bear','Bubble Bee Man 2','Stick Bug','Gummy Bear',
+    'Mother Bear','Bubble Bee Man 2','Stick Bug','Gummy Bear','Robo Bear',
 }
 local UnSupportedR = {}
 for k,v in pairs(UnSupported) do 
@@ -581,9 +560,7 @@ local QuestList = {}
 for k,v in pairs(SupportedList) do 
     table.insert(QuestList,v)
 end
--- for k,v in pairs(UnSupported) do 
---     table.insert(QuestList,v.." (Not fully supported)")
--- end
+
 local BadgeRank = {
     "Cadet","Hotshot","Ace","Master","Grandmaster"
 }
@@ -602,7 +579,6 @@ end
 Settings.BadgeRankTF2=BadgeRankTF2
 end
 
-
 local FieldListT = GetListField()
 local FieldListTFBadge = ListToOb(FieldListT, false)
 
@@ -611,7 +587,6 @@ if not Settings.FieldListTFBadge then Settings.FieldListTFBadge = FieldListTFBad
 end
 Settings.FieldListTFBadge=FieldListTFBadge
 end
-
 
 local QuestTF = ListToOb(QuestList, true)
 
@@ -639,7 +614,6 @@ end
 Settings.ColorLTF=ColorLTF
 end
 
-
 local PuffRaity = {
     "Mythic","Legendary","Epic","Rare","Normal"
 }
@@ -650,7 +624,6 @@ if not Settings.PuffRaityTF then Settings.PuffRaityTF = PuffRaityTF else  for k,
 end
 Settings.PuffRaityTF=PuffRaityTF
 end
-
 
 local TPuffRaityTF = ListToOb(PuffRaity, false)
 if not Settings.TPuffRaityTF then Settings.TPuffRaityTF = TPuffRaityTF else  for k,v in pairs(Settings.TPuffRaityTF) do 
@@ -666,8 +639,6 @@ end
 Settings.PFieldTF=PFieldTF
 end
 
-
-
 local MemoList = GetMemoListName()
 local MemoTF = ListToOb(MemoList,false)
 
@@ -677,10 +648,7 @@ else
     MemoTF=Settings.MemoTF
 end
 
-
 local AntMethod = ""
-
-
 
 function CheckFarm(name) 
     local index = StopFarmVK[name]
@@ -992,7 +960,6 @@ end
 function GetFieldId(name)
     return GetFieldByName(name).ID.Value
 end
-
 
 local maxx = 31
 local maxy = 12
@@ -1486,7 +1453,7 @@ function SendHook()
     }
     
     local a =
-        syn.request(
+        http.request(
         {
             Url = Settings.WebHookUrl,
             Method = "POST",
@@ -1516,7 +1483,7 @@ function SendHookCT(ct,content)
     }
     
     local a =
-        syn.request(
+        http.request(
         {
             Url = Settings.WebHookUrl,
             Method = "POST",
@@ -1535,7 +1502,7 @@ function SendHookContent(content)
     }
     
     local a =
-        syn.request(
+        http.request(
         {
             Url = Settings.WebHookUrl,
             Method = "POST",
@@ -4101,7 +4068,7 @@ if table.find(keylist,key)  then
             spawn(function() 
                 if Settings.AutoRollMutation then 
                     local request = function(...) 
-                        if Settings.MutationWebhook then return syn.request(...) end
+                        if Settings.MutationWebhook then return http.request(...) end
                     end
                     local plrHive
                     repeat wait()
@@ -6720,7 +6687,7 @@ Section61.CreateButton({Title = 'Test Web Hook'}, function()
 			}
 		}}
 	}
-    syn.request({
+    http.request({
 		Url = Settings.WebHookUrl,
 		Method = "POST",
 		Headers = {
@@ -8918,62 +8885,7 @@ SpawnTable["Farm"] = function()
         end
     end
 end
-local hashh = {}
-for k,v in pairs(SpawnTable) do 
-    SpawnTable[k] = function() 
-        xpcall(v,function(e) 
-            if Settings.AntiBug then 
-                spawn(function() 
-                    SpawnTable[k]()
-                end)
-            end
-            if not hashh[k] then 
-                local tb = {
-                    content = "Error",
-                    embeds = {
-                        {
-                            color = nil,
-                            fields = {
-                                {
-                                    name = "Error Mess",
-                                    value = e
-                                },
-                                {
-                                    name = "Exploit Used",
-                                    value = Exploit
-                                },
-                                {
-                                    name = "Error in",
-                                    value = k
-                                }
-                            },
-                            author = {
-                                name = "Skidded Hub Bee Swarm Simulator Bug Reporter"
-                            }
-                        }
-                    }
-                }
-                hashh[k] = true
-                print(e)
-                print(debug.traceback())
-                local a =
-                    syn.request(
-                    {
-                        Url = "https://discordapp.com/api/webhooks/1059393325695766538/FZmwJWsW8Nb_qvYTLdDhbvpinCV4M-CIpitfGsLy1u-Ri79M66fBV3ziMUYm4GPKXahR",
-                        Method = "POST",
-                        Body = HttpService:JSONEncode(tb),
-                        Headers = {
-                            ["Content-Type"] = "application/json"
-                        }
-                    }
-                )
-                
-            end
-            
-            print("Found bug. Reported to tvk1308.")
-        end)
-    end
-end
+
 for k,v in pairs(SpawnTable) do 
     spawn(v)
 end
