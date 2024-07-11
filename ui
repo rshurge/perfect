@@ -807,22 +807,6 @@ function t.CreateMain(H)
     al.TextColor3 = Color3.fromRGB(0, 0, 0)
     al.TextSize = 14.000
     al.Visible = true
-    am.Name = "SettingIcon"
-    am.Parent = ak
-    am.AnchorPoint = Vector2.new(0.5, 0.5)
-    am.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    am.BackgroundTransparency = 1.000
-    am.Position = UDim2.new(0.5, 0, 0.5, 0)
-    am.Size = UDim2.new(1, -10, 1, -10)
-    am.Image = "rbxassetid://7397332215"
-    am.Visible = true
-    am.ImageColor3 = getgenv().UIColor["Setting Icon Color"]
-    table.insert(
-        c["Setting Icon Color"],
-        function()
-            am.ImageColor3 = getgenv().UIColor["Setting Icon Color"]
-        end
-    )
     ae.Name = "Background1"
     ae.Parent = ao
     ae.Position = UDim2.new(0, 5, 0, 0)
