@@ -1082,28 +1082,6 @@ function t.CreateMain(H)
             aI()
         end
     )
-    function t.CreateCustomColor(aJ)
-        ay.Text = aJ or "Custom GUI"
-        local aK = {}
-        function aK.CreateSection(aL)
-            local aM = Instance.new("Frame")
-            local M = Instance.new("UICorner")
-            local aN = Instance.new("Frame")
-            local aO = Instance.new("TextLabel")
-            local aP = Instance.new("Frame")
-            local aQ = Instance.new("UIGradient")
-            local aR = Instance.new("UIListLayout")
-            local aS = aL or "Section"
-            aM.Name = aL .. "Section"
-            aM.Parent = aw
-            aM.Size = UDim2.new(1, 0, 0, 285)
-            aM.BackgroundColor3 = getgenv().UIColor["Background 3 Color"]
-            table.insert(
-                c["Background 3 Color"],
-                function()
-                    aM.BackgroundColor3 = getgenv().UIColor["Background 3 Color"]
-                end
-            )
             aM.BackgroundTransparency = getgenv().UIColor["Background 1 Transparency"]
             table.insert(
                 c["Background 1 Transparency"],
